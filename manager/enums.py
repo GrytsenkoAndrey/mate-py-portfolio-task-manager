@@ -28,3 +28,4 @@ class PriorityEnum(Enum):
     LOW = "Low"
     NORMAL = "Normal"
     HIGH = "High"
+    URGENT = "Urgent"

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <main class="tm-content">
+      <div class="page-header">
+        <div><div class="breadcrumb"><a href="workers.html">Сотрудники</a> <span class="text-muted mx-1">/</span> <a href="worker-detail.html">Andrii Kovalenko</a> <span class="text-muted mx-1">/</span> <span class="current">Профиль сотрудника</span></div><h1>Профиль сотрудника</h1><p class="text-muted mb-0 mt-1">Редактирование данных учётной записи</p></div>
+        <div class="d-flex gap-2"></div>
+      </div>
+      <form class="needs-validation" novalidate data-demo data-redirect="worker-detail.html" style="max-width:720px">
+        <div class="card mb-3">
+          <div class="card-header"><h2>Основное</h2></div>
+          <div class="card-body"><div class="row g-3">
+            
+              <div class="col-md-6">
+                <label class="form-label" for="first_name">Имя *</label>
+                <input type="text" class="form-control" id="first_name" name="first_name" value="Andrii" required>
+                <div class="invalid-feedback">Заполните поле</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="last_name">Фамилия *</label>
+                <input type="text" class="form-control" id="last_name" name="last_name" value="Kovalenko" required>
+                <div class="invalid-feedback">Заполните поле</div>
+              </div>
+            
+              <div class="col-md-6">
+                <label class="form-label" for="username">Username *</label>
+                <input type="text" class="form-control" id="username" name="username" value="a.koval" required pattern="[A-Za-z0-9_.@+-]+">
+                <div class="invalid-feedback">Заполните поле</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="email">Email *</label>
+                <input type="email" class="form-control" id="email" name="email" value="andrii@itcompany.dev" required>
+                <div class="invalid-feedback">Заполните поле</div>
+              </div>
+            <div class="col-md-6">
+              <label class="form-label" for="position">Должность *</label>
+              <select class="form-select" id="position" name="position" required><option selected>Developer</option><option>Project Manager</option><option>QA</option><option>Designer</option><option>DevOps</option></select>
+            </div>
+          </div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h2>Пароль</h2></div>
+          <div class="card-body"><div class="row g-3">
+            
+              <div class="col-md-6">
+                <label class="form-label" for="password1">Новый пароль</label>
+                <input type="password" class="form-control" id="password1" name="password1" value="">
+                <div class="invalid-feedback">Заполните поле</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="password2">Повторите пароль</label>
+                <input type="password" class="form-control" id="password2" name="password2" value="">
+                <div class="invalid-feedback">Заполните поле</div>
+              </div>
+            <div class="col-12 form-text mt-1">Оставьте пустым, чтобы не менять. Минимум 8 символов.</div>
+          </div></div>
+        </div>
+        <div class="d-flex justify-content-between gap-2 mt-4 pt-3 border-top">
+          <button type="button" class="btn btn-ghost text-danger" data-bs-toggle="modal" data-bs-target="#confirmDelete" data-name="Andrii Kovalenko">Удалить сотрудника</button>
+          <div class="d-flex gap-2"><a href="worker-detail.html" class="btn btn-outline-secondary">Отмена</a><button class="btn btn-dark">Сохранить</button></div>
+        </div>
+      </form>
+    </main>
+{% endblock %}

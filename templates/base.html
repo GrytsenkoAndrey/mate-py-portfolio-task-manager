@@ -32,8 +32,8 @@
           <i class="bi bi-chevron-expand text-muted"></i>
         </a>
         <ul class="dropdown-menu w-100">
-          <li><a class="dropdown-item" href="worker-detail.html">Мой профиль</a></li>
-          <li><a class="dropdown-item" href="worker-form.html">Настройки</a></li>
+          <li><a class="dropdown-item" href="{% url 'manager:worker-detail' %}">Мой профиль</a></li>
+          <li><a class="dropdown-item" href="{% url 'manager:worker-form' %}">Настройки</a></li>
           <li><hr class="dropdown-divider"></li>
           <li>
           <form method="post" action="{% url 'logout' %}" class="m-0">

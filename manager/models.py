@@ -5,7 +5,10 @@ from .enums import PositionTypeEnum, TaskTypeEnum, PriorityEnum
 
 # Create your models here.
 class Position(models.Model):
-    name = models.CharField(max_length=255, default=PositionTypeEnum.DEVELOPER.value)
+    name = models.CharField(
+        max_length=255,
+        default=PositionTypeEnum.DEVELOPER.value,
+    )
 
 
 class Worker(AbstractUser):
@@ -28,7 +31,11 @@ class TaskType(models.Model):
 class Project(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
-    team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="projects")
+    team = models.ForeignKey(
+        Team,
+        on_delete=models.CASCADE,
+        related_name="projects",
+    )
 
 
 class Task(models.Model):
@@ -36,7 +43,16 @@ class Task(models.Model):
     description = models.TextField()
     deadline = models.DateField()
     is_completed = models.BooleanField(default=False)
-    priority = models.CharField(max_length=63, default=PriorityEnum.NORMAL.value)
-    task_type = models.ForeignKey(TaskType, on_delete=models.CASCADE, related_name="tasks")
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="tasks")
+    priority = models.CharField(
+        max_length=63,
+        default=PriorityEnum.NORMAL.value,
+    )
+    task_type = models.ForeignKey(
+        TaskType, on_delete=models.CASCADE, related_name="tasks"
+    )
+    project = models.ForeignKey(
+        Project,
+        on_delete=models.CASCADE,
+        related_name="tasks",
+    )
     tags = models.ManyToManyField(Tag, related_name="tasks")

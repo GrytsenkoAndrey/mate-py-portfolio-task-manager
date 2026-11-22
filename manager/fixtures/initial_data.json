@@ -1,0 +1,12 @@
+[
+  {"model": "manager.position", "pk": 1, "fields": {"name": "Developer"}},
+  {"model": "manager.position", "pk": 2, "fields": {"name": "Project Manager"}},
+  {"model": "manager.position", "pk": 3, "fields": {"name": "QA"}},
+  {"model": "manager.position", "pk": 4, "fields": {"name": "Designer"}},
+  {"model": "manager.position", "pk": 5, "fields": {"name": "DevOps"}},
+  {"model": "manager.tasktype", "pk": 1, "fields": {"name": "Bug"}},
+  {"model": "manager.tasktype", "pk": 2, "fields": {"name": "Feature"}},
+  {"model": "manager.tasktype", "pk": 3, "fields": {"name": "Breaking Change"}},
+  {"model": "manager.tasktype", "pk": 4, "fields": {"name": "Refactoring"}},
+  {"model": "manager.tasktype", "pk": 5, "fields": {"name": "QA"}}
+]

@@ -10,6 +10,9 @@ class Position(models.Model):
         default=PositionTypeEnum.DEVELOPER.value,
     )
 
+    def __str__(self):
+        return self.name
+
 
 class Worker(AbstractUser):
     position = models.ForeignKey(Position, on_delete=models.CASCADE)
@@ -32,9 +35,7 @@ class Project(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
     team = models.ForeignKey(
-        Team,
-        on_delete=models.CASCADE,
-        related_name="projects",
+        Team, on_delete=models.CASCADE, related_name="projects"
     )
 
 
@@ -51,8 +52,6 @@ class Task(models.Model):
         TaskType, on_delete=models.CASCADE, related_name="tasks"
     )
     project = models.ForeignKey(
-        Project,
-        on_delete=models.CASCADE,
-        related_name="tasks",
+        Project, on_delete=models.CASCADE, related_name="tasks"
     )
     tags = models.ManyToManyField(Tag, related_name="tasks")

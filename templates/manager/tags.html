@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <main class="tm-content">
+      <div class="page-header">
+        <div><h1>Теги</h1><p class="text-muted mb-0 mt-1">Метки для группировки задач (Many-to-Many)</p></div>
+        <div class="d-flex gap-2"></div>
+      </div>
+      <div style="max-width:720px">
+        <form class="d-flex gap-2 mb-3" method="post">
+          {% csrf_token %}
+          <div class="input-group">
+            {{ tag_form.name }}
+            <button type="submit" class="btn btn-dark text-nowrap">
+              <i class="bi bi-plus-lg me-1"></i>Добавить
+            </button>
+          </div>
+          {% for error in tag_form.name.errors %}
+            <div class="text-danger small mt-1">{{ error }}</div>
+          {% endfor %}
+        </form>
+
+        <div class="card">
+          <div id="items" data-filterable data-empty="#items-empty">
+            {% for tag in tag_list %}
+              <div class="list-row" data-item>
+              <i class="bi bi-hash text-muted"></i><a href="tasks.html?tag={{ tag.name }}" class="item-name fw-medium">{{ tag.name }}</a><span class="text-muted small">{{ tag.tasks.count }} задач</span>
+              <div class="actions d-flex gap-1">
+                <button class="btn btn-ghost btn-sm" data-rename aria-label="Переименовать"><i class="bi bi-pencil"></i></button>
+                <button class="btn btn-ghost btn-sm" data-bs-toggle="modal" data-bs-target="#confirmDelete" data-name="{{ tag.name }}" aria-label="Удалить"><i class="bi bi-trash"></i></button>
+              </div>
+            </div>
+            {% empty %}
+            <div id="items-empty" class="empty d-none"><i class="bi bi-inbox"></i>Список пуст</div>
+            {% endfor %}
+          <template><div class="list-row" data-item>
+              <i class="bi bi-hash text-muted"></i><a href="tasks.html?tag=__NAME__" class="item-name fw-medium">__NAME__</a><span class="text-muted small">0</span>
+              <div class="actions d-flex gap-1">
+                <button class="btn btn-ghost btn-sm" data-rename aria-label="Переименовать"><i class="bi bi-pencil"></i></button>
+                <button class="btn btn-ghost btn-sm" data-bs-toggle="modal" data-bs-target="#confirmDelete" data-name="__NAME__" aria-label="Удалить"><i class="bi bi-trash"></i></button>
+              </div>
+            </div></template>
+          </div>
+        </div>
+        <p class="form-text mt-2">Наведите на строку, чтобы переименовать или удалить.</p>
+      </div>
+    </main>
+{% endblock %}

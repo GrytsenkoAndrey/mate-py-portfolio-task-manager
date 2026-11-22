@@ -15,19 +15,29 @@
 
   <aside class="tm-sidebar offcanvas-lg offcanvas-start d-flex flex-column" tabindex="-1" id="sidebar">
     <div class="d-flex align-items-center justify-content-between">
-      <a href="index.html" class="tm-brand"><span class="tm-brand-mark"><i class="bi bi-check2"></i></span>TaskFlow</a>
+      <a href="{% url "manager:index" %}" class="tm-brand"><span class="tm-brand-mark"><i class="bi bi-check2"></i></span>TaskFlow</a>
       <button type="button" class="btn-close d-lg-none me-3" data-bs-dismiss="offcanvas" data-bs-target="#sidebar" aria-label="Закрыть"></button>
     </div>
     <nav class="tm-nav flex-grow-1 overflow-auto">
-      <span class="label">Работа</span><a href="index.html" data-section="dashboard"><i class="bi bi-grid"></i>Обзор</a><a href="tasks.html" data-section="tasks"><i class="bi bi-check2-square"></i>Задачи<span class="count">12</span></a><a href="projects.html" data-section="projects"><i class="bi bi-folder2"></i>Проекты<span class="count">3</span></a><span class="label">Люди</span><a href="workers.html" data-section="workers"><i class="bi bi-people"></i>Сотрудники<span class="count">8</span></a><a href="teams.html" data-section="teams"><i class="bi bi-diagram-3"></i>Команды<span class="count">3</span></a><span class="label">Справочники</span><a href="positions.html" data-section="positions"><i class="bi bi-briefcase"></i>Должности</a><a href="task-types.html" data-section="task-types"><i class="bi bi-bookmark"></i>Типы задач</a><a href="tags.html" data-section="tags"><i class="bi bi-hash"></i>Теги</a>
+      <span class="label">Работа</span>
+      <a href="{% url "manager:index" %}" data-section="dashboard"><i class="bi bi-grid"></i>Обзор</a>
+      <a href="tasks.html" data-section="tasks"><i class="bi bi-check2-square"></i>Задачи<span class="count">12</span></a>
+      <a href="projects.html" data-section="projects"><i class="bi bi-folder2"></i>Проекты<span class="count">3</span></a>
+      <span class="label">Люди</span>
+      <a href="workers.html" data-section="workers"><i class="bi bi-people"></i>Сотрудники<span class="count">8</span></a>
+      <a href="teams.html" data-section="teams"><i class="bi bi-diagram-3"></i>Команды<span class="count">3</span></a>
+      <span class="label">Справочники</span>
+      <a href="positions.html" data-section="positions"><i class="bi bi-briefcase"></i>Должности</a>
+      <a href="task-types.html" data-section="task-types"><i class="bi bi-bookmark"></i>Типы задач</a>
+      <a href="{% url "manager:tags" %}" data-section="tags"><i class="bi bi-hash"></i>Теги</a>
     </nav>
     <div class="border-top p-3">
       <div class="dropdown dropup">
         <a href="#" class="d-flex align-items-center gap-2 text-body" data-bs-toggle="dropdown">
-          <span class="avatar " title="Andrii Kovalenko">AK</span>
+          <span class="avatar" title="{{ user.first_name}} {{ user.last_name }}">{{ user.first_name.0 }}{{ user.last_name.0 }}</span>
           <span class="lh-sm flex-grow-1">
-            <span class="d-block fw-medium">Andrii Kovalenko</span>
-            <span class="d-block text-muted small">Developer</span>
+            <span class="d-block fw-medium">{{ user.first_name}} {{ user.last_name }}</span>
+            <span class="d-block text-muted small">{{ user.position }}</span>
           </span>
           <i class="bi bi-chevron-expand text-muted"></i>
         </a>

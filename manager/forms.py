@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Worker
+from .models import Worker, Tag
 
 
 class WorkerUpdateForm(forms.ModelForm):
@@ -49,3 +49,14 @@ class WorkerUpdateForm(forms.ModelForm):
         if commit:
             worker.save()
         return worker
+
+
+class TagForm(forms.ModelForm):
+    class Meta:
+        model = Tag
+        fields = ["name"]
+        widgets = {
+            "name": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Новый тег"}
+            ),
+        }

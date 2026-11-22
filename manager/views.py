@@ -1,8 +1,11 @@
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
+from django.views import generic
 
-from .forms import WorkerUpdateForm
+from .forms import WorkerUpdateForm, TagForm
+from .models import Tag
 
 
 # Create your views here.
@@ -33,3 +36,25 @@ def worker_detail(request):
     """View function for worker detail page."""
 
     return render(request, "manager/worker-detail.html")
+
+
+class TagListView(LoginRequiredMixin, generic.ListView):
+    model = Tag
+    form_class = TagForm
+    template_name = "manager/tags.html"
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["tag_form"] = self.form_class()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("manager:tags")
+        self.object_list = self.get_queryset()
+        context = self.get_context_data()
+        context["tag_form"] = form
+        return self.render_to_response(context)

@@ -4,12 +4,14 @@ from .views import (
     worker_form,
     worker_detail,
     TagListView,
+    WorkerListView,
 )
 
 urlpatterns = [
     path("", index, name="index"),
+    path("workers/", WorkerListView.as_view(), name="workers"),
     path("worker-form/", worker_form, name="worker-form"),
-    path("worker-detail/", worker_detail, name="worker-detail"),
+    path("worker-detail/<int:pk>/", worker_detail, name="worker-detail"),
     path("tags/", TagListView.as_view(), name="tags"),
 ]
 

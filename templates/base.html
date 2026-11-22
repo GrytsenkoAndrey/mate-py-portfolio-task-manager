@@ -21,11 +21,11 @@
     <nav class="tm-nav flex-grow-1 overflow-auto">
       <span class="label">Работа</span>
       <a href="{% url "manager:index" %}" data-section="dashboard"><i class="bi bi-grid"></i>Обзор</a>
-      <a href="tasks.html" data-section="tasks"><i class="bi bi-check2-square"></i>Задачи<span class="count">12</span></a>
-      <a href="projects.html" data-section="projects"><i class="bi bi-folder2"></i>Проекты<span class="count">3</span></a>
+      <a href="tasks.html" data-section="tasks"><i class="bi bi-check2-square"></i>Задачи{% comment %}<span class="count">12</span>{% endcomment %}</a>
+      <a href="projects.html" data-section="projects"><i class="bi bi-folder2"></i>Проекты{% comment %}<span class="count">3</span>{% endcomment %}</a>
       <span class="label">Люди</span>
-      <a href="workers.html" data-section="workers"><i class="bi bi-people"></i>Сотрудники<span class="count">8</span></a>
-      <a href="teams.html" data-section="teams"><i class="bi bi-diagram-3"></i>Команды<span class="count">3</span></a>
+      <a href="{% url "manager:workers" %}" data-section="workers"><i class="bi bi-people"></i>Сотрудники{% comment %}<span class="count">{{ workers_count }}</span>{% endcomment %}</a>
+      <a href="teams.html" data-section="teams"><i class="bi bi-diagram-3"></i>Команды{% comment %}<span class="count">3</span>{% endcomment %}</a>
       <span class="label">Справочники</span>
       <a href="{% url "manager:tags" %}" data-section="tags"><i class="bi bi-hash"></i>Теги</a>
     </nav>
@@ -40,7 +40,7 @@
           <i class="bi bi-chevron-expand text-muted"></i>
         </a>
         <ul class="dropdown-menu w-100">
-          <li><a class="dropdown-item" href="{% url 'manager:worker-detail' %}">Мой профиль</a></li>
+          <li><a class="dropdown-item" href="{% url 'manager:worker-detail' pk=user.id %}">Мой профиль</a></li>
           <li><a class="dropdown-item" href="{% url 'manager:worker-form' %}">Настройки</a></li>
           <li><hr class="dropdown-divider"></li>
           <li>

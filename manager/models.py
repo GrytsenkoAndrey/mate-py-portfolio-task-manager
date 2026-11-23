@@ -20,6 +20,7 @@ class Worker(AbstractUser):
 
 class Team(models.Model):
     name = models.CharField(max_length=255)
+    description = models.TextField(default="")
     members = models.ManyToManyField(Worker, related_name="teams")
 
 
@@ -33,7 +34,8 @@ class TaskType(models.Model):
 
 class Project(models.Model):
     name = models.CharField(max_length=255)
-    description = models.TextField()
+    description = models.TextField(default="")
+    deadline = models.DateField()
     team = models.ForeignKey(
         Team, on_delete=models.CASCADE, related_name="projects"
     )

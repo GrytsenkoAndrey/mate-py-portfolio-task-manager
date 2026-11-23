@@ -1,9 +1,10 @@
 {% extends "base.html" %}
+{% load ru_plural %}
 
 {% block content %}
     <main class="tm-content">
       <div class="page-header">
-        <div><h1>Сотрудники</h1><p class="text-muted mb-0 mt-1">{{ workers_count }} человек{{ workers_count|pluralize:"а" }}</p></div>
+        <div><h1>Сотрудники</h1><p class="text-muted mb-0 mt-1">{{ workers_count }} {{ workers_count|ru_plural:"человек,человека,человек" }}</p></div>
         <div class="d-flex gap-2"><a href="worker-form.html" class="btn btn-dark"><i class="bi bi-plus-lg me-1"></i>Добавить</a></div>
       </div>
       <div class="card">

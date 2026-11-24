@@ -7,6 +7,7 @@ from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views import generic
 
+from .enums import PriorityEnum
 from .forms import WorkerUpdateForm, TagForm, TeamForm, ProjectForm, TaskForm
 from .models import Tag, Worker, Team, Project, Task
 
@@ -15,8 +16,55 @@ from .models import Tag, Worker, Team, Project, Task
 @login_required
 def index(request):
     """View function for home page of site."""
+    today = timezone.localdate()
+    open_tasks = Task.objects.filter(is_completed=False)
 
-    return render(request, "manager/index.html")
+    priority_counts = dict(
+        open_tasks.values_list("priority").annotate(total=Count("id"))
+    )
+    priorities = [
+        (priority.value, priority_counts.get(priority.value, 0))
+        for priority in reversed(PriorityEnum)
+    ]
+
+    projects = Project.objects.annotate(
+        tasks_total=Count("tasks", distinct=True),
+        tasks_done=Count(
+            "tasks",
+            filter=Q(tasks__is_completed=True),
+            distinct=True,
+        ),
+    ).order_by("name")
+    for project in projects:
+        project.progress = (
+            round(project.tasks_done * 100 / project.tasks_total)
+            if project.tasks_total
+            else 0
+        )
+
+    my_tasks = (
+        Task.objects.filter(project__team__members=request.user)
+        .select_related("task_type", "project")
+        .prefetch_related("tags")
+        .distinct()
+        .order_by("is_completed", "deadline", "name")
+    )
+
+    context = {
+        "today": today,
+        "open_tasks_count": open_tasks.count(),
+        "done_tasks_count": Task.objects.filter(is_completed=True).count(),
+        "overdue_tasks_count": open_tasks.filter(deadline__lt=today).count(),
+        "workers_count": Worker.objects.count(),
+        "teams_count": Team.objects.count(),
+        "upcoming_tasks": open_tasks.select_related(
+            "task_type", "project"
+        ).order_by("deadline", "name")[:6],
+        "projects": projects,
+        "priorities": priorities,
+        "my_tasks": my_tasks,
+    }
+    return render(request, "manager/index.html", context)
 
 
 @login_required

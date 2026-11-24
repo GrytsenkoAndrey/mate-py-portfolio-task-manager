@@ -17,6 +17,12 @@ class Position(models.Model):
 class Worker(AbstractUser):
     position = models.ForeignKey(Position, on_delete=models.CASCADE)
 
+    def get_initials(self):
+        return f"{self.first_name[0]}{self.last_name[0]}"
+
+    def get_full_name(self):
+        return f"{self.first_name} {self.last_name}"
+
 
 class Team(models.Model):
     name = models.CharField(max_length=255)

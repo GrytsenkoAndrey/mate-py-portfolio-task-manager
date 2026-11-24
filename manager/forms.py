@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Worker, Tag, Team
+from .models import Worker, Tag, Team, Project
 
 
 class WorkerUpdateForm(forms.ModelForm):
@@ -78,5 +78,28 @@ class TeamForm(forms.ModelForm):
             ),
             "members": forms.SelectMultiple(
                 attrs={"class": "form-control"}
+            ),
+        }
+
+
+class ProjectForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        fields = ["name", "description", "team", "deadline"]
+        widgets = {
+            "name": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Название проекта",
+                }
+            ),
+            "description": forms.Textarea(
+                attrs={"class": "form-control", "rows": 3}
+            ),
+            "team": forms.Select(
+                attrs={"class": "form-control"}
+            ),
+            "deadline": forms.DateInput(
+                attrs={"class": "form-control", "type": "date"}
             ),
         }

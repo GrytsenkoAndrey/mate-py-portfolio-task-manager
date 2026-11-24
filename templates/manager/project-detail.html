@@ -5,7 +5,8 @@
       <div class="page-header">
         <div><div class="breadcrumb"><a href="projects.html">Проекты</a> <span class="text-muted mx-1">/</span> <span class="current">Job Board</span></div><h1>Job Board</h1><p class="text-muted mb-0 mt-1">Публичный сайт вакансий с личным кабинетом рекрутера.</p></div>
         <div class="d-flex gap-2">
-          <button class="btn btn-outline-secondary" aria-label="Изменить"><i class="bi bi-pencil"></i></button>
+          <a href="{% url 'manager:project-update' pk=object.pk %}" class="btn btn-outline-secondary" aria-label="Изменить"><i class="bi bi-pencil"></i></a>
+          <a href="{% url 'manager:project-delete' pk=object.pk %}" class="btn btn-outline-danger" aria-label="Удалить"><i class="bi bi-trash"></i></a>
           <a href="task-form.html" class="btn btn-dark"><i class="bi bi-plus-lg me-1"></i>Задача</a></div>
       </div>
       <div class="row g-3 mb-4">

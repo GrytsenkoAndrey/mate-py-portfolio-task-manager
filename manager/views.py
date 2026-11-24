@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
 
-from .forms import WorkerUpdateForm, TagForm, TeamForm
+from .forms import WorkerUpdateForm, TagForm, TeamForm, ProjectForm
 from .models import Tag, Worker, Team, Project
 
 
@@ -147,3 +147,23 @@ class ProjectListView(LoginRequiredMixin, generic.ListView):
 class ProjectDetailView(LoginRequiredMixin, generic.DetailView):
     model = Project
     template_name = "manager/project-detail.html"
+
+
+class ProjectCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Project
+    form_class = ProjectForm
+    template_name = "manager/project-form.html"
+    success_url = reverse_lazy("manager:projects")
+
+
+class ProjectUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Project
+    form_class = ProjectForm
+    template_name = "manager/project-form.html"
+    success_url = reverse_lazy("manager:projects")
+
+
+class ProjectDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Project
+    template_name = "manager/project-confirm-delete.html"
+    success_url = reverse_lazy("manager:projects")

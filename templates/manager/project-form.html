@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<main class="tm-content">
+  <div class="page-header">
+    <div>
+      <h1>{% if object %}Редактировать проект{% else %}Новый проект{% endif %}</h1>
+      <p class="text-muted mb-0 mt-1">Укажите название, описание, команду и дедлайн проекта</p>
+    </div>
+  </div>
+  <form method="post" style="max-width:720px">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+      <a href="{% url 'manager:projects' %}" class="btn btn-outline-secondary">Отмена</a>
+      <button type="submit" class="btn btn-dark">Сохранить</button>
+    </div>
+  </form>
+</main>
+{% endblock %}

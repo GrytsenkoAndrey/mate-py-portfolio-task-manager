@@ -4,7 +4,7 @@
     <main class="tm-content">
       <div class="page-header">
         <div><h1>Проекты</h1><p class="text-muted mb-0 mt-1">Команды работают над проектами, в каждом проекте много задач</p></div>
-        <div class="d-flex gap-2"><button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#projectModal"><i class="bi bi-plus-lg me-1"></i>Новый проект</button></div>
+        <div class="d-flex gap-2"><a class="btn btn-dark" href="{% url 'manager:project-create' %}"><i class="bi bi-plus-lg me-1"></i>Новый проект</a></div>
       </div>
       <div class="row g-3" data-filterable>
         {% for project in project_list %}
@@ -46,23 +46,6 @@
             <p class="text-muted">Проектов пока нет.</p>
           </div>
         {% endfor %}
-      </div>
-
-      <div class="modal fade" id="projectModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <form class="modal-content needs-validation" novalidate data-demo>
-            <div class="modal-header border-0 pb-0"><h2>Новый проект</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button></div>
-            <div class="modal-body d-flex flex-column gap-3">
-              <div><label class="form-label" for="pname">Название *</label><input id="pname" class="form-control" required></div>
-              <div><label class="form-label" for="pdesc">Описание</label><textarea id="pdesc" class="form-control" rows="3"></textarea></div>
-              <div class="row g-3">
-                <div class="col-6"><label class="form-label" for="pteam">Команда</label><select id="pteam" class="form-select"><option value="">Выберите команду</option>{% for team in teams %}<option value="{{ team.pk }}">{{ team.name }}</option>{% endfor %}</select></div>
-                <div class="col-6"><label class="form-label" for="pdl">Дедлайн</label><input id="pdl" type="date" class="form-control"></div>
-              </div>
-            </div>
-            <div class="modal-footer border-0 pt-0"><button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Отмена</button><button class="btn btn-dark">Создать</button></div>
-          </form>
-        </div>
       </div>
     </main>
 {% endblock %}

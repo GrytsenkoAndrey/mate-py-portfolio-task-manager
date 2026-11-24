@@ -1,0 +1,18 @@
+[
+  {"model": "manager.worker", "pk": 3, "fields": {"username": "a.koval", "first_name": "Andrii", "last_name": "Kovalenko", "email": "andrii@itcompany.dev", "password": "pbkdf2_sha256$1500000$zKYLcRqiVVqksvbGmMoaeP$M8NHYPhHEWSBntXHBig9r5oqNjAXGkA8TXLCtBYTnng=", "position": 1}},
+  {"model": "manager.worker", "pk": 4, "fields": {"username": "m.shevchenko", "first_name": "Maria", "last_name": "Shevchenko", "email": "maria@itcompany.dev", "password": "pbkdf2_sha256$1500000$zKYLcRqiVVqksvbGmMoaeP$M8NHYPhHEWSBntXHBig9r5oqNjAXGkA8TXLCtBYTnng=", "position": 4}},
+  {"model": "manager.worker", "pk": 5, "fields": {"username": "o.bond", "first_name": "Oleh", "last_name": "Bondarenko", "email": "oleh@itcompany.dev", "password": "pbkdf2_sha256$1500000$zKYLcRqiVVqksvbGmMoaeP$M8NHYPhHEWSBntXHBig9r5oqNjAXGkA8TXLCtBYTnng=", "position": 2}},
+  {"model": "manager.worker", "pk": 6, "fields": {"username": "i.tkachenko", "first_name": "Iryna", "last_name": "Tkachenko", "email": "iryna@itcompany.dev", "password": "pbkdf2_sha256$1500000$zKYLcRqiVVqksvbGmMoaeP$M8NHYPhHEWSBntXHBig9r5oqNjAXGkA8TXLCtBYTnng=", "position": 3}},
+  {"model": "manager.worker", "pk": 7, "fields": {"username": "d.melnyk", "first_name": "Dmytro", "last_name": "Melnyk", "email": "dmytro@itcompany.dev", "password": "pbkdf2_sha256$1500000$zKYLcRqiVVqksvbGmMoaeP$M8NHYPhHEWSBntXHBig9r5oqNjAXGkA8TXLCtBYTnng=", "position": 5}},
+  {"model": "manager.worker", "pk": 8, "fields": {"username": "s.lysenko", "first_name": "Sofia", "last_name": "Lysenko", "email": "sofia@itcompany.dev", "password": "pbkdf2_sha256$1500000$zKYLcRqiVVqksvbGmMoaeP$M8NHYPhHEWSBntXHBig9r5oqNjAXGkA8TXLCtBYTnng=", "position": 1}},
+  {"model": "manager.worker", "pk": 9, "fields": {"username": "m.roman", "first_name": "Maksym", "last_name": "Romanenko", "email": "maksym@itcompany.dev", "password": "pbkdf2_sha256$1500000$zKYLcRqiVVqksvbGmMoaeP$M8NHYPhHEWSBntXHBig9r5oqNjAXGkA8TXLCtBYTnng=", "position": 1}},
+  {"model": "manager.worker", "pk": 10, "fields": {"username": "a.polishchuk", "first_name": "Anna", "last_name": "Polishchuk", "email": "anna@itcompany.dev", "password": "pbkdf2_sha256$1500000$zKYLcRqiVVqksvbGmMoaeP$M8NHYPhHEWSBntXHBig9r5oqNjAXGkA8TXLCtBYTnng=", "position": 3}},
+
+  {"model": "manager.team", "pk": 1, "fields": {"name": "Core Backend", "description": "Сервисы, API и база данных","members": [3, 8, 9, 6]}},
+  {"model": "manager.team", "pk": 2, "fields": {"name": "Product Design", "description": "Интерфейсы, прототипы и UX-исследования","members": [4, 5, 10]}},
+  {"model": "manager.team", "pk": 3, "fields": {"name": "Platform", "description": "Инфраструктура, CI/CD, мониторинг","members": [7, 3]}},
+
+  {"model": "manager.project", "pk": 1, "fields": {"name": "Job Board", "description": "Публичный сайт вакансий с личным кабинетом рекрутера.", "deadline": "2026-12-20", "team": 1}},
+  {"model": "manager.project", "pk": 2, "fields": {"name": "Mobile App", "description": "Мобильный клиент для кандидатов: поиск и отклики.", "deadline": "2027-02-01", "team": 2}},
+  {"model": "manager.project", "pk": 3, "fields": {"name": "Internal Tools", "description": "Админка, CI/CD и внутренняя инфраструктура.", "deadline": "2026-12-31", "team": 3}}
+]

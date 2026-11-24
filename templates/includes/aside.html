@@ -6,7 +6,7 @@
     <nav class="tm-nav flex-grow-1 overflow-auto">
       <span class="label">Работа</span>
       <a href="{% url "manager:index" %}" data-section="dashboard"><i class="bi bi-grid"></i>Обзор</a>
-      <a href="tasks.html" data-section="tasks"><i class="bi bi-check2-square"></i>Задачи{% comment %}<span class="count">12</span>{% endcomment %}</a>
+      <a href="{% url "manager:tasks" %}" data-section="tasks"><i class="bi bi-check2-square"></i>Задачи{% comment %}<span class="count">12</span>{% endcomment %}</a>
       <a href="{% url "manager:projects" %}" data-section="projects"><i class="bi bi-folder2"></i>Проекты{% comment %}<span class="count">3</span>{% endcomment %}</a>
       <span class="label">Люди</span>
       <a href="{% url "manager:workers" %}" data-section="workers"><i class="bi bi-people"></i>Сотрудники{% comment %}<span class="count">{{ workers_count }}</span>{% endcomment %}</a>

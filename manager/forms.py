@@ -1,6 +1,7 @@
 from django import forms
 
-from .models import Worker, Tag, Team, Project
+from .enums import PriorityEnum
+from .models import Worker, Tag, Team, Project, Task
 
 
 class WorkerUpdateForm(forms.ModelForm):
@@ -101,5 +102,58 @@ class ProjectForm(forms.ModelForm):
             ),
             "deadline": forms.DateInput(
                 attrs={"class": "form-control", "type": "date"}
+            ),
+        }
+
+
+class TaskForm(forms.ModelForm):
+    description = forms.CharField(
+        required=False,
+        widget=forms.Textarea(attrs={"class": "form-control", "rows": 5}),
+    )
+    priority = forms.ChoiceField(
+        choices=[
+            (priority.value, priority.value) for priority in PriorityEnum
+        ],
+        widget=forms.RadioSelect,
+    )
+
+    class Meta:
+        model = Task
+        fields = [
+            "name",
+            "description",
+            "priority",
+            "task_type",
+            "deadline",
+            "project",
+            "tags",
+            "is_completed",
+        ]
+        labels = {
+            "name": "Название",
+            "description": "Описание",
+            "priority": "Приоритет",
+            "task_type": "Тип задачи",
+            "deadline": "Дедлайн",
+            "project": "Проект",
+            "tags": "Теги",
+            "is_completed": "Выполнена",
+        }
+        widgets = {
+            "name": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Название задачи",
+                }
+            ),
+            "task_type": forms.Select(attrs={"class": "form-select"}),
+            "deadline": forms.DateInput(
+                attrs={"class": "form-control", "type": "date"}
+            ),
+            "project": forms.Select(attrs={"class": "form-select"}),
+            "tags": forms.CheckboxSelectMultiple,
+            "is_completed": forms.CheckboxInput(
+                attrs={"class": "form-check-input"}
             ),
         }

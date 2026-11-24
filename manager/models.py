@@ -23,6 +23,9 @@ class Worker(AbstractUser):
     def get_full_name(self):
         return f"{self.first_name} {self.last_name}"
 
+    def __str__(self):
+        return self.get_full_name()
+
 
 class Team(models.Model):
     name = models.CharField(max_length=255)
@@ -33,9 +36,15 @@ class Team(models.Model):
 class Tag(models.Model):
     name = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.name
+
 
 class TaskType(models.Model):
     name = models.CharField(max_length=255, default=TaskTypeEnum.FEATURE.value)
+
+    def __str__(self):
+        return self.name
 
 
 class Project(models.Model):
@@ -45,6 +54,9 @@ class Project(models.Model):
     team = models.ForeignKey(
         Team, on_delete=models.CASCADE, related_name="projects"
     )
+
+    def __str__(self):
+        return self.name
 
 
 class Task(models.Model):

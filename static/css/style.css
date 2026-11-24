@@ -164,6 +164,7 @@ a.tag:hover { color: var(--tm-text); border-color: var(--tm-border-strong); }
 .priority-urgent { color: var(--tm-urgent); }
 .priority-high { color: var(--tm-high); }
 .priority-medium { color: var(--tm-medium); }
+.priority-normal { color: var(--tm-muted); }
 .priority-low { color: var(--tm-low); }
 
 .status { display: inline-flex; align-items: center; gap: .375rem; font-size: .8125rem; color: var(--tm-muted); }

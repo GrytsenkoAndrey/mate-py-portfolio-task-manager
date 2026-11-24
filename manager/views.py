@@ -6,8 +6,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
 
-from .forms import WorkerUpdateForm, TagForm, TeamForm, ProjectForm
-from .models import Tag, Worker, Team, Project
+from .forms import WorkerUpdateForm, TagForm, TeamForm, ProjectForm, TaskForm
+from .models import Tag, Worker, Team, Project, Task
 
 
 # Create your views here.
@@ -167,3 +167,40 @@ class ProjectDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Project
     template_name = "manager/project-confirm-delete.html"
     success_url = reverse_lazy("manager:projects")
+
+
+class TaskListView(LoginRequiredMixin, generic.ListView):
+    model = Task
+    queryset = (
+        Task.objects.select_related("task_type", "project")
+        .prefetch_related("tags")
+        .order_by("deadline", "name")
+    )
+    template_name = "manager/tasks.html"
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["tasks_count"] = Task.objects.count()
+        context["projects_count"] = Project.objects.count()
+        return context
+
+
+class TaskCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Task
+    form_class = TaskForm
+    template_name = "manager/task-form.html"
+    success_url = reverse_lazy("manager:tasks")
+
+
+class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Task
+    form_class = TaskForm
+    template_name = "manager/task-form.html"
+    success_url = reverse_lazy("manager:tasks")
+
+
+class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Task
+    template_name = "manager/task-confirm-delete.html"
+    success_url = reverse_lazy("manager:tasks")

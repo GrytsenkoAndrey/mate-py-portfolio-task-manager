@@ -13,48 +13,9 @@
 </head>
 <body data-section="dashboard" data-today="2026-11-21">
 
-  <aside class="tm-sidebar offcanvas-lg offcanvas-start d-flex flex-column" tabindex="-1" id="sidebar">
-    <div class="d-flex align-items-center justify-content-between">
-      <a href="{% url "manager:index" %}" class="tm-brand"><span class="tm-brand-mark"><i class="bi bi-check2"></i></span>TaskFlow</a>
-      <button type="button" class="btn-close d-lg-none me-3" data-bs-dismiss="offcanvas" data-bs-target="#sidebar" aria-label="Закрыть"></button>
-    </div>
-    <nav class="tm-nav flex-grow-1 overflow-auto">
-      <span class="label">Работа</span>
-      <a href="{% url "manager:index" %}" data-section="dashboard"><i class="bi bi-grid"></i>Обзор</a>
-      <a href="tasks.html" data-section="tasks"><i class="bi bi-check2-square"></i>Задачи{% comment %}<span class="count">12</span>{% endcomment %}</a>
-      <a href="projects.html" data-section="projects"><i class="bi bi-folder2"></i>Проекты{% comment %}<span class="count">3</span>{% endcomment %}</a>
-      <span class="label">Люди</span>
-      <a href="{% url "manager:workers" %}" data-section="workers"><i class="bi bi-people"></i>Сотрудники{% comment %}<span class="count">{{ workers_count }}</span>{% endcomment %}</a>
-      <a href="teams.html" data-section="teams"><i class="bi bi-diagram-3"></i>Команды{% comment %}<span class="count">3</span>{% endcomment %}</a>
-      <span class="label">Справочники</span>
-      <a href="{% url "manager:tags" %}" data-section="tags"><i class="bi bi-hash"></i>Теги</a>
-    </nav>
-    <div class="border-top p-3">
-      <div class="dropdown dropup">
-        <a href="#" class="d-flex align-items-center gap-2 text-body" data-bs-toggle="dropdown">
-          <span class="avatar" title="{{ user.first_name}} {{ user.last_name }}">{{ user.first_name.0 }}{{ user.last_name.0 }}</span>
-          <span class="lh-sm flex-grow-1">
-            <span class="d-block fw-medium">{{ user.first_name}} {{ user.last_name }}</span>
-            <span class="d-block text-muted small">{{ user.position }}</span>
-          </span>
-          <i class="bi bi-chevron-expand text-muted"></i>
-        </a>
-        <ul class="dropdown-menu w-100">
-          <li><a class="dropdown-item" href="{% url 'manager:worker-detail' pk=user.id %}">Мой профиль</a></li>
-          <li><a class="dropdown-item" href="{% url 'manager:worker-form' %}">Настройки</a></li>
-          <li><hr class="dropdown-divider"></li>
-          <li>
-          <form method="post" action="{% url 'logout' %}" class="m-0">
-            {% csrf_token %}
-            <button type="submit" class="dropdown-item">Выйти</button>
-          </form>
-        </li>
-        </ul>
-      </div>
-    </div>
-  </aside>
-  <div class="tm-main">
+   {% include "includes/aside.html" %}
 
+   <div class="tm-main">
     <header class="tm-topbar d-flex align-items-center gap-3 px-3 px-sm-4">
       <button class="btn btn-ghost d-lg-none px-2" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-label="Меню"><i class="bi bi-list fs-5"></i></button>
       <div class="input-icon flex-grow-1" style="max-width:360px">

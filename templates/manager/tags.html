@@ -4,7 +4,6 @@
     <main class="tm-content">
       <div class="page-header">
         <div><h1>Теги</h1><p class="text-muted mb-0 mt-1">Метки для группировки задач (Many-to-Many)</p></div>
-        <div class="d-flex gap-2"></div>
       </div>
       <div style="max-width:720px">
         <form class="d-flex gap-2 mb-3" method="post">
@@ -24,25 +23,39 @@
           <div id="items" data-filterable data-empty="#items-empty">
             {% for tag in tag_list %}
               <div class="list-row" data-item>
-              <i class="bi bi-hash text-muted"></i><a href="tasks.html?tag={{ tag.name }}" class="item-name fw-medium">{{ tag.name }}</a><span class="text-muted small">{{ tag.tasks.count }} задач</span>
-              <div class="actions d-flex gap-1">
-                <button class="btn btn-ghost btn-sm" data-rename aria-label="Переименовать"><i class="bi bi-pencil"></i></button>
-                <button class="btn btn-ghost btn-sm" data-bs-toggle="modal" data-bs-target="#confirmDelete" data-name="{{ tag.name }}" aria-label="Удалить"><i class="bi bi-trash"></i></button>
+                <i class="bi bi-hash text-muted"></i>
+                <span class="item-name fw-medium">{{ tag.name }}</span>
+                <span class="text-muted small">{{ tag.tasks_count }} задач</span>
+                <div class="actions d-flex gap-1">
+                  <a class="btn btn-ghost btn-sm" href="{% url 'manager:tag-update' pk=tag.pk %}" aria-label="Переименовать">
+                    <i class="bi bi-pencil"></i>
+                  </a>
+                  <a class="btn btn-ghost btn-sm text-danger" href="{% url 'manager:tag-delete' pk=tag.pk %}" aria-label="Удалить">
+                    <i class="bi bi-trash"></i>
+                  </a>
+                </div>
               </div>
-            </div>
             {% empty %}
-            <div id="items-empty" class="empty d-none"><i class="bi bi-inbox"></i>Список пуст</div>
+              <div id="items-empty" class="empty"><i class="bi bi-inbox"></i>Тегов пока нет</div>
             {% endfor %}
-          <template><div class="list-row" data-item>
-              <i class="bi bi-hash text-muted"></i><a href="tasks.html?tag=__NAME__" class="item-name fw-medium">__NAME__</a><span class="text-muted small">0</span>
-              <div class="actions d-flex gap-1">
-                <button class="btn btn-ghost btn-sm" data-rename aria-label="Переименовать"><i class="bi bi-pencil"></i></button>
-                <button class="btn btn-ghost btn-sm" data-bs-toggle="modal" data-bs-target="#confirmDelete" data-name="__NAME__" aria-label="Удалить"><i class="bi bi-trash"></i></button>
-              </div>
-            </div></template>
           </div>
         </div>
-        <p class="form-text mt-2">Наведите на строку, чтобы переименовать или удалить.</p>
+        {% if is_paginated %}
+          <nav class="d-flex justify-content-between align-items-center mt-4" aria-label="Навигация по страницам">
+            {% if page_obj.has_previous %}
+              <a class="btn btn-outline-secondary" href="?page={{ page_obj.previous_page_number }}">Назад</a>
+            {% else %}
+              <span></span>
+            {% endif %}
+            <span class="small text-muted">Страница {{ page_obj.number }} из {{ paginator.num_pages }}</span>
+            {% if page_obj.has_next %}
+              <a class="btn btn-outline-secondary" href="?page={{ page_obj.next_page_number }}">Далее</a>
+            {% else %}
+              <span></span>
+            {% endif %}
+          </nav>
+        {% endif %}
+        <p class="form-text mt-2">Используйте кнопки рядом с тегом, чтобы изменить или удалить его.</p>
       </div>
     </main>
 {% endblock %}

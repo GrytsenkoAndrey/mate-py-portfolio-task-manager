@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <main class="tm-content">
+      <div class="page-header">
+        <div><div class="breadcrumb"><a href="projects.html">Проекты</a> <span class="text-muted mx-1">/</span> <span class="current">Job Board</span></div><h1>Job Board</h1><p class="text-muted mb-0 mt-1">Публичный сайт вакансий с личным кабинетом рекрутера.</p></div>
+        <div class="d-flex gap-2">
+          <button class="btn btn-outline-secondary" aria-label="Изменить"><i class="bi bi-pencil"></i></button>
+          <a href="task-form.html" class="btn btn-dark"><i class="bi bi-plus-lg me-1"></i>Задача</a></div>
+      </div>
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3"><div class="card stat h-100"><div class="card-body"><div class="label mb-2">Прогресс</div><div class="value">17%</div><div class="progress mt-2"><div class="progress-bar" style="width:17%"></div></div></div></div></div>
+        <div class="col-6 col-md-3"><div class="card stat h-100"><div class="card-body"><div class="label mb-2">Открыто</div><div class="value">5</div><div class="small text-muted mt-1">задач</div></div></div></div>
+        <div class="col-6 col-md-3"><div class="card stat h-100"><div class="card-body"><div class="label mb-2">Команда</div><div class="value fs-5 pt-2">Core Backend</div><div class="small text-muted mt-1">4 человек</div></div></div></div>
+        <div class="col-6 col-md-3"><div class="card stat h-100"><div class="card-body"><div class="label mb-2">Дедлайн</div><div class="value fs-5 pt-2">20 дек 2026</div><div class="small text-muted mt-1">через 29 дней</div></div></div></div>
+      </div>
+      <div class="row g-4">
+        <div class="col-xl-9">
+          <div class="card">
+        <div class="d-flex flex-wrap align-items-center gap-2 p-3 border-bottom">
+          <div class="segmented" data-filter-status role="group">
+            <button type="button" class="btn active" data-value="all">Все</button>
+            <button type="button" class="btn" data-value="open">В работе</button>
+            <button type="button" class="btn" data-value="done">Выполненные</button>
+          </div>
+          <select class="form-select form-select-sm w-auto" data-filter-priority aria-label="Приоритет"><option value="">Любой приоритет</option><option value="Urgent">Urgent</option><option value="High">High</option><option value="Medium">Medium</option><option value="Low">Low</option></select>
+          <select class="form-select form-select-sm w-auto" data-filter-type aria-label="Тип"><option value="">Все типы</option><option value="Bug">Bug</option><option value="New feature">New feature</option><option value="Breaking change">Breaking change</option><option value="Refactoring">Refactoring</option><option value="QA">QA</option></select>
+          <span class="ms-auto text-muted small"><span id="proj-tasks-count">0</span> задач</span>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead><tr><th></th><th>Задача</th><th class="d-none d-md-table-cell">Тип</th><th>Приоритет</th><th>Дедлайн</th><th class="d-none d-sm-table-cell">Исполнители</th></tr></thead>
+            <tbody id="proj-tasks" data-filterable data-empty="#proj-tasks-empty" data-counter="#proj-tasks-count">
+            <tr data-task data-href="task-detail.html" data-status="open" data-priority="Urgent" data-type="Bug" class="row-link">
+              <td style="width:36px"><button type="button" class="task-check" aria-label="Отметить выполненной" aria-pressed="false"><i class="bi bi-check"></i></button></td>
+              <td>
+                <a href="task-detail.html" class="task-name fw-medium">Fix Dashboard for Vacancies</a>
+                <div class="d-flex flex-wrap gap-1 mt-1"><a href="tasks.html?tag=api" class="tag">#api</a> <a href="tasks.html?tag=ui" class="tag">#ui</a></div>
+              </td>
+              <td class="d-none d-md-table-cell"><span class="badge-soft">Bug</span></td>
+              <td><span class="priority priority-urgent">Urgent</span></td>
+              <td class="text-nowrap"><span data-deadline="2026-11-19">19 ноя</span></td>
+              
+              <td class="d-none d-sm-table-cell"><span class="avatar-stack"><span class="avatar " title="Andrii Kovalenko">AK</span><span class="avatar " title="Iryna Tkachenko">IT</span></span></td>
+            </tr>
+            <tr data-task data-href="task-detail.html" data-status="open" data-priority="High" data-type="New feature" class="row-link">
+              <td style="width:36px"><button type="button" class="task-check" aria-label="Отметить выполненной" aria-pressed="false"><i class="bi bi-check"></i></button></td>
+              <td>
+                <a href="task-detail.html" class="task-name fw-medium">Add sign-in with Google button</a>
+                <div class="d-flex flex-wrap gap-1 mt-1"><a href="tasks.html?tag=auth" class="tag">#auth</a> <a href="tasks.html?tag=ui" class="tag">#ui</a></div>
+              </td>
+              <td class="d-none d-md-table-cell"><span class="badge-soft">New feature</span></td>
+              <td><span class="priority priority-high">High</span></td>
+              <td class="text-nowrap"><span data-deadline="2026-11-28">28 ноя</span></td>
+              
+              <td class="d-none d-sm-table-cell"><span class="avatar-stack"><span class="avatar " title="Sofia Lysenko">SL</span><span class="avatar " title="Maria Shevchenko">MS</span></span></td>
+            </tr>
+            <tr data-task data-href="task-detail.html" data-status="open" data-priority="Medium" data-type="New feature" class="row-link">
+              <td style="width:36px"><button type="button" class="task-check" aria-label="Отметить выполненной" aria-pressed="false"><i class="bi bi-check"></i></button></td>
+              <td>
+                <a href="task-detail.html" class="task-name fw-medium">Landing page redesign</a>
+                <div class="d-flex flex-wrap gap-1 mt-1"><a href="tasks.html?tag=landing-page-layout" class="tag">#landing-page-layout</a> <a href="tasks.html?tag=ui" class="tag">#ui</a></div>
+              </td>
+              <td class="d-none d-md-table-cell"><span class="badge-soft">New feature</span></td>
+              <td><span class="priority priority-medium">Medium</span></td>
+              <td class="text-nowrap"><span data-deadline="2026-12-05">5 дек</span></td>
+              
+              <td class="d-none d-sm-table-cell"><span class="avatar-stack"><span class="avatar " title="Maria Shevchenko">MS</span></span></td>
+            </tr>
+            <tr data-task data-href="task-detail.html" data-status="open" data-priority="Medium" data-type="Refactoring" class="row-link">
+              <td style="width:36px"><button type="button" class="task-check" aria-label="Отметить выполненной" aria-pressed="false"><i class="bi bi-check"></i></button></td>
+              <td>
+                <a href="task-detail.html" class="task-name fw-medium">Refactor vacancy services</a>
+                <div class="d-flex flex-wrap gap-1 mt-1"><a href="tasks.html?tag=python-refactoring" class="tag">#python-refactoring</a></div>
+              </td>
+              <td class="d-none d-md-table-cell"><span class="badge-soft">Refactoring</span></td>
+              <td><span class="priority priority-medium">Medium</span></td>
+              <td class="text-nowrap"><span data-deadline="2026-12-10">10 дек</span></td>
+              
+              <td class="d-none d-sm-table-cell"><span class="avatar-stack"><span class="avatar " title="Andrii Kovalenko">AK</span><span class="avatar " title="Maksym Romanenko">MR</span></span></td>
+            </tr>
+            <tr data-task data-href="task-detail.html" data-status="open" data-priority="High" data-type="QA" class="row-link">
+              <td style="width:36px"><button type="button" class="task-check" aria-label="Отметить выполненной" aria-pressed="false"><i class="bi bi-check"></i></button></td>
+              <td>
+                <a href="task-detail.html" class="task-name fw-medium">Regression tests for checkout</a>
+                <div class="d-flex flex-wrap gap-1 mt-1"><a href="tasks.html?tag=api" class="tag">#api</a></div>
+              </td>
+              <td class="d-none d-md-table-cell"><span class="badge-soft">QA</span></td>
+              <td><span class="priority priority-high">High</span></td>
+              <td class="text-nowrap"><span data-deadline="2026-11-25">25 ноя</span></td>
+              
+              <td class="d-none d-sm-table-cell"><span class="avatar-stack"><span class="avatar " title="Iryna Tkachenko">IT</span><span class="avatar " title="Anna Polishchuk">AP</span></span></td>
+            </tr>
+            <tr data-task data-href="task-detail.html" data-status="done" data-priority="High" data-type="Refactoring" class="row-link is-done">
+              <td style="width:36px"><button type="button" class="task-check" aria-label="Отметить выполненной" aria-pressed="true"><i class="bi bi-check"></i></button></td>
+              <td>
+                <a href="task-detail.html" class="task-name fw-medium">Optimize candidate search query</a>
+                <div class="d-flex flex-wrap gap-1 mt-1"><a href="tasks.html?tag=database" class="tag">#database</a> <a href="tasks.html?tag=performance" class="tag">#performance</a></div>
+              </td>
+              <td class="d-none d-md-table-cell"><span class="badge-soft">Refactoring</span></td>
+              <td><span class="priority priority-high">High</span></td>
+              <td class="text-nowrap"><span data-deadline="2026-11-15">15 ноя</span></td>
+              
+              <td class="d-none d-sm-table-cell"><span class="avatar-stack"><span class="avatar " title="Andrii Kovalenko">AK</span><span class="avatar " title="Sofia Lysenko">SL</span></span></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="proj-tasks-empty" class="empty d-none"><i class="bi bi-inbox"></i>Ничего не найдено</div>
+          </div>
+        </div>
+        <div class="col-xl-3">
+          <div class="card">
+            <div class="card-header d-flex justify-content-between"><h2>Команда</h2><a href="teams.html" class="small text-muted">Core Backend</a></div>
+            <div class="card-body py-2">
+              <a href="worker-detail.html" class="d-flex align-items-center gap-2 py-2 text-body"><span class="avatar " title="Andrii Kovalenko">AK</span><span class="lh-sm flex-grow-1"><span class="d-block fw-medium">Andrii Kovalenko</span><span class="small text-muted">Developer</span></span><span class="small text-muted">2</span></a>
+              <a href="worker-detail.html" class="d-flex align-items-center gap-2 py-2 text-body"><span class="avatar " title="Sofia Lysenko">SL</span><span class="lh-sm flex-grow-1"><span class="d-block fw-medium">Sofia Lysenko</span><span class="small text-muted">Developer</span></span><span class="small text-muted">1</span></a>
+              <a href="worker-detail.html" class="d-flex align-items-center gap-2 py-2 text-body"><span class="avatar " title="Maksym Romanenko">MR</span><span class="lh-sm flex-grow-1"><span class="d-block fw-medium">Maksym Romanenko</span><span class="small text-muted">Developer</span></span><span class="small text-muted">1</span></a>
+              <a href="worker-detail.html" class="d-flex align-items-center gap-2 py-2 text-body"><span class="avatar " title="Iryna Tkachenko">IT</span><span class="lh-sm flex-grow-1"><span class="d-block fw-medium">Iryna Tkachenko</span><span class="small text-muted">QA</span></span><span class="small text-muted">2</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+{% endblock %}

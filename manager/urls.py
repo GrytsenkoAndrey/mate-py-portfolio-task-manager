@@ -4,6 +4,8 @@ from .views import (
     worker_form,
     worker_detail,
     TagListView,
+    TagUpdateView,
+    TagDeleteView,
     WorkerListView,
     TeamListView,
     TeamCreateView,
@@ -19,6 +21,16 @@ urlpatterns = [
     path("worker-form/", worker_form, name="worker-form"),
     path("worker-detail/<int:pk>/", worker_detail, name="worker-detail"),
     path("tags/", TagListView.as_view(), name="tags"),
+    path(
+        "tags/<int:pk>/update/",
+        TagUpdateView.as_view(),
+        name="tag-update",
+    ),
+    path(
+        "tags/<int:pk>/delete/",
+        TagDeleteView.as_view(),
+        name="tag-delete",
+    ),
     path("teams/", TeamListView.as_view(), name="teams"),
     path("teams/create/", TeamCreateView.as_view(), name="team-create"),
     path(

@@ -54,13 +54,15 @@ class WorkerListView(LoginRequiredMixin, generic.ListView):
 
 class TagListView(LoginRequiredMixin, generic.ListView):
     model = Tag
+    queryset = Tag.objects.annotate(tasks_count=Count("tasks"))
     form_class = TagForm
     template_name = "manager/tags.html"
     paginate_by = 10
+    ordering = ["name"]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["tag_form"] = self.form_class()
+        context.setdefault("tag_form", self.form_class())
         return context
 
     def post(self, request, *args, **kwargs):
@@ -69,9 +71,20 @@ class TagListView(LoginRequiredMixin, generic.ListView):
             form.save()
             return redirect("manager:tags")
         self.object_list = self.get_queryset()
-        context = self.get_context_data()
-        context["tag_form"] = form
-        return self.render_to_response(context)
+        return self.render_to_response(self.get_context_data(tag_form=form))
+
+
+class TagUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Tag
+    form_class = TagForm
+    template_name = "manager/tag-form.html"
+    success_url = reverse_lazy("manager:tags")
+
+
+class TagDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Tag
+    template_name = "manager/tag-confirm-delete.html"
+    success_url = reverse_lazy("manager:tags")
 
 
 class TeamListView(LoginRequiredMixin, generic.ListView):

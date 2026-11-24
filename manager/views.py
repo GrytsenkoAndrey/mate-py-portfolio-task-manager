@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count, Prefetch, Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.views import generic
 
 from .forms import WorkerUpdateForm, TagForm, TeamForm, ProjectForm, TaskForm
@@ -146,7 +147,40 @@ class ProjectListView(LoginRequiredMixin, generic.ListView):
 
 class ProjectDetailView(LoginRequiredMixin, generic.DetailView):
     model = Project
+    queryset = (
+        Project.objects.select_related("team")
+        .prefetch_related("team__members__position")
+        .annotate(
+            tasks_total=Count("tasks", distinct=True),
+            tasks_done=Count(
+                "tasks",
+                filter=Q(tasks__is_completed=True),
+                distinct=True,
+            ),
+        )
+        .order_by("name")
+    )
     template_name = "manager/project-detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["tasks"] = (
+            self.object.tasks.select_related("task_type")
+            .prefetch_related("tags")
+            .order_by("deadline", "name")
+        )
+        context["tasks_open"] = (
+            self.object.tasks_total - self.object.tasks_done
+        )
+        context["progress"] = (
+            round(self.object.tasks_done * 100 / self.object.tasks_total)
+            if self.object.tasks_total
+            else 0
+        )
+        context["days_left"] = (
+            self.object.deadline - timezone.localdate()
+        ).days
+        return context
 
 
 class ProjectCreateView(LoginRequiredMixin, generic.CreateView):

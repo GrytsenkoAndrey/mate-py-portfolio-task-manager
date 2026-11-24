@@ -1,11 +1,13 @@
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Count, Prefetch, Q
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy
 from django.views import generic
 
-from .forms import WorkerUpdateForm, TagForm
-from .models import Tag, Worker
+from .forms import WorkerUpdateForm, TagForm, TeamForm
+from .models import Tag, Worker, Team, Project
 
 
 # Create your views here.
@@ -70,3 +72,65 @@ class TagListView(LoginRequiredMixin, generic.ListView):
         context = self.get_context_data()
         context["tag_form"] = form
         return self.render_to_response(context)
+
+
+class TeamListView(LoginRequiredMixin, generic.ListView):
+    model = Team
+    queryset = Team.objects.prefetch_related(
+        Prefetch(
+            "members", queryset=Worker.objects.select_related("position")
+        ),
+        "projects"
+    )
+    template_name = "manager/teams.html"
+    paginate_by = 10
+    ordering = ["name"]
+
+
+class TeamCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Team
+    form_class = TeamForm
+    template_name = "manager/team-form.html"
+    success_url = reverse_lazy("manager:teams")
+
+
+class TeamUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Team
+    form_class = TeamForm
+    template_name = "manager/team-form.html"
+    success_url = reverse_lazy("manager:teams")
+
+
+class TeamDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Team
+    template_name = "manager/team-confirm-delete.html"
+    success_url = reverse_lazy("manager:teams")
+
+
+class ProjectListView(LoginRequiredMixin, generic.ListView):
+    model = Project
+    queryset = (
+        Project.objects.select_related("team")
+        .prefetch_related("team__members")
+        .annotate(
+            tasks_total=Count("tasks", distinct=True),
+            tasks_done=Count(
+                "tasks",
+                filter=Q(tasks__is_completed=True),
+                distinct=True,
+            ),
+        )
+        .order_by("name")
+    )
+    template_name = "manager/projects.html"
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["teams"] = Team.objects.order_by("name")
+        return context
+
+
+class ProjectDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Project
+    template_name = "manager/project-detail.html"

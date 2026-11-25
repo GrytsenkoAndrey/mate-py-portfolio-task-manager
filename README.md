@@ -67,13 +67,23 @@ source .venv/bin/activate
 uv pip install -r requirements.txt
 ```
 
-### 3. Apply migrations
+### 3. Configure environment variables
+
+```bash
+cp .env.example .env
+```
+
+Replace the example `DJANGO_SECRET_KEY` with a unique secret (for example,
+generate one with `openssl rand -base64 48`). Set `DJANGO_DEBUG` to `True` for
+local development or `False` for production. The `.env` file is ignored by Git.
+
+### 4. Apply migrations
 
 ```bash
 python manage.py migrate
 ```
 
-### 4. Load sample data (optional)
+### 5. Load sample data (optional)
 
 ```bash
 python manage.py loaddata initial_data projects_data
@@ -86,7 +96,7 @@ python manage.py loaddata initial_data projects_data
 All sample workers have the password `Password123!`. For example, you
 can log in as `a.koval`.
 
-### 5. Create an admin user (optional)
+### 6. Create an admin user (optional)
 
 A worker must have a position, and `createsuperuser` doesn't ask for
 one, so create the superuser in the Django shell (after step 4, or
@@ -108,7 +118,7 @@ Worker.objects.create_superuser(
 )
 ```
 
-### 6. Start the development server
+### 7. Start the development server
 
 ```bash
 python manage.py runserver
@@ -126,7 +136,7 @@ black .
 
 ## Notes
 
-- `settings.py` is set up for local development (`DEBUG = True` and a
-  hardcoded `SECRET_KEY`). Before you deploy, set `DEBUG = False`, move
-  `SECRET_KEY` to an environment variable, fill in `ALLOWED_HOSTS` and
+- `SECRET_KEY` and `DEBUG` are read from `DJANGO_SECRET_KEY` and
+  `DJANGO_DEBUG`; settings load these values from `.env` for local development.
+  Before deploying, set `DJANGO_DEBUG=False`, configure `ALLOWED_HOSTS`, and
   run `python manage.py collectstatic`.

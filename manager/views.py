@@ -268,6 +268,15 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
         return context
 
 
+class TaskDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Task
+    queryset = (
+        Task.objects.select_related("task_type", "project__team")
+        .prefetch_related("tags", "project__team__members__position")
+    )
+    template_name = "manager/task-detail.html"
+
+
 class TaskCreateView(LoginRequiredMixin, generic.CreateView):
     model = Task
     form_class = TaskForm

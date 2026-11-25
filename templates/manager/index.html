@@ -45,7 +45,7 @@
             <div class="list-row" data-task data-status="open">
               <span class="task-check"><i class="bi bi-check"></i></span>
               <div class="flex-grow-1 min-w-0">
-                <a href="{% url 'manager:task-update' pk=task.pk %}" class="task-name fw-medium d-block text-truncate">{{ task.name }}</a>
+                <a href="{% url 'manager:task-detail' pk=task.pk %}" class="task-name fw-medium d-block text-truncate">{{ task.name }}</a>
                 <div class="small text-muted">{{ task.project.name }} · {{ task.task_type.name }}</div>
               </div>
               <span class="priority priority-{{ task.priority|lower }}">{{ task.priority }}</span>
@@ -111,7 +111,7 @@
                   class="{% if task.is_completed %}is-done{% endif %}">
                 <td style="width:36px"><span class="task-check"><i class="bi bi-check"></i></span></td>
                 <td>
-                  <a href="{% url 'manager:task-update' pk=task.pk %}" class="task-name fw-medium">{{ task.name }}</a>
+                  <a href="{% url 'manager:task-detail' pk=task.pk %}" class="task-name fw-medium">{{ task.name }}</a>
                   {% if task.tags.all %}
                     <div class="d-flex flex-wrap gap-1 mt-1">
                       {% for tag in task.tags.all %}

@@ -47,7 +47,8 @@
                 </span>
               </td>
               <td>
-                <span class="task-name fw-medium">{{ task.name }}</span>
+                <a href="{% url 'manager:task-detail' pk=task.pk %}"
+                   class="task-name fw-medium">{{ task.name }}</a>
                 {% if task.tags.all %}
                   <div class="d-flex flex-wrap gap-1 mt-1">
                     {% for tag in task.tags.all %}

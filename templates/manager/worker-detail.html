@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <main class="tm-content">
+      <div class="breadcrumb mb-3"><a href="workers.html">Сотрудники</a> <span class="text-muted mx-1">/</span> <span class="current">{{ user.first_name }} {{ user.last_name }}</span></div>
+      <div class="card mb-4">
+        <div class="card-body d-flex flex-wrap align-items-center gap-4">
+          <span class="avatar avatar-lg" title="{{ user.first_name }} {{ user.last_name }}">{{ user.first_name.0 }}{{ user.last_name.0 }}</span>
+          <div class="flex-grow-1">
+            <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+            <div class="text-muted mt-1">{{ user.position }} · @{{ user.username }} · <a href="mailto:{{ user.email }}" class="text-muted">{{ user.email }}</a></div>
+            <div class="d-flex flex-wrap gap-1 mt-2">
+              {% if user.teams.all %}
+                {% for team in user.teams.all %}
+                  <a href="teams.html" class="badge-soft">{{ team.name }}</a>
+                {% endfor %}
+              {% endif %}
+            </div>
+          </div>
+          <div style="min-width:200px">
+            <div class="d-flex justify-content-between small mb-1"><span class="text-muted">Выполнено</span><span class="fw-medium" id="worker-progress-label">0%</span></div>
+            <div class="progress"><div class="progress-bar" id="worker-progress" style="width:0"></div></div>
+          </div>
+          <a href="worker-form.html" class="btn btn-outline-secondary"><i class="bi bi-pencil me-1"></i>Изменить</a>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <div class="label">Невыполненные · <span data-count-for="#list-open">2</span></div>
+            <a href="task-form.html" class="small text-muted"><i class="bi bi-plus"></i> Назначить</a>
+          </div>
+          <div class="card">
+            <div id="list-open">
+              <div class="list-row" data-task data-status="open" data-priority="Urgent">
+                <button type="button" class="task-check" aria-label="Переключить статус"><i class="bi bi-check"></i></button>
+                <div class="flex-grow-1 min-w-0">
+                  <a href="task-detail.html" class="task-name fw-medium">Fix Dashboard for Vacancies</a>
+                  <div class="d-flex flex-wrap align-items-center gap-1 mt-1"><span class="small text-muted me-1">Bug · Job Board</span><a href="tasks.html?tag=api" class="tag">#api</a> <a href="tasks.html?tag=ui" class="tag">#ui</a></div>
+                </div>
+                <span class="d-none d-sm-inline"><span class="priority priority-urgent">Urgent</span></span>
+                <span class="small text-nowrap text-end" style="width:64px" data-deadline="2026-11-19">19 ноя</span>
+              </div>
+              <div class="list-row" data-task data-status="open" data-priority="Medium">
+                <button type="button" class="task-check" aria-label="Переключить статус"><i class="bi bi-check"></i></button>
+                <div class="flex-grow-1 min-w-0">
+                  <a href="task-detail.html" class="task-name fw-medium">Refactor vacancy services</a>
+                  <div class="d-flex flex-wrap align-items-center gap-1 mt-1"><span class="small text-muted me-1">Refactoring · Job Board</span><a href="tasks.html?tag=python-refactoring" class="tag">#python-refactoring</a></div>
+                </div>
+                <span class="d-none d-sm-inline"><span class="priority priority-medium">Medium</span></span>
+                <span class="small text-nowrap text-end" style="width:64px" data-deadline="2026-12-10">10 дек</span>
+              </div>
+            </div>
+            <div class="empty d-none"><i class="bi bi-cup-hot"></i>Все задачи выполнены</div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="label mb-2">Выполненные · <span data-count-for="#list-done">1</span></div>
+          <div class="card">
+            <div id="list-done">
+              <div class="list-row is-done" data-task data-status="done" data-priority="High">
+                <button type="button" class="task-check" aria-label="Переключить статус"><i class="bi bi-check"></i></button>
+                <div class="flex-grow-1 min-w-0">
+                  <a href="task-detail.html" class="task-name fw-medium">Optimize candidate search query</a>
+                  <div class="d-flex flex-wrap align-items-center gap-1 mt-1"><span class="small text-muted me-1">Refactoring · Job Board</span><a href="tasks.html?tag=database" class="tag">#database</a> <a href="tasks.html?tag=performance" class="tag">#performance</a></div>
+                </div>
+                <span class="d-none d-sm-inline"><span class="priority priority-high">High</span></span>
+                <span class="small text-nowrap text-end" style="width:64px" data-deadline="2026-11-15">15 ноя</span>
+              </div>
+            </div>
+            <div class="empty d-none"><i class="bi bi-hourglass"></i>Пока ничего не выполнено</div>
+          </div>
+        </div>
+      </div>
+    </main>
+{% endblock %}

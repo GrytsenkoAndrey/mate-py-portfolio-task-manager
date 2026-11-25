@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+{% load ru_plural %}
+
+{% block content %}
+    <main class="tm-content">
+      <div class="page-header">
+        <div>
+          <div class="breadcrumb">
+            <a href="{% url 'manager:projects' %}">Проекты</a>
+            <span class="text-muted mx-1">/</span>
+            <span class="current">{{ project.name }}</span>
+          </div>
+          <h1>{{ project.name }}</h1>
+          <p class="text-muted mb-0 mt-1">{{ project.description }}</p>
+        </div>
+        <div class="d-flex gap-2">
+          <a href="{% url 'manager:project-update' pk=object.pk %}" class="btn btn-outline-secondary" aria-label="Изменить"><i class="bi bi-pencil"></i></a>
+          <a href="{% url 'manager:project-delete' pk=object.pk %}" class="btn btn-outline-danger" aria-label="Удалить"><i class="bi bi-trash"></i></a>
+          <a href="{% url 'manager:task-create' %}" class="btn btn-dark"><i class="bi bi-plus-lg me-1"></i>Задача</a></div>
+      </div>
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3">
+          <div class="card stat h-100"><div class="card-body">
+            <div class="label mb-2">Прогресс</div>
+            <div class="value">{{ progress }}%</div>
+            <div class="progress mt-2"><div class="progress-bar" style="width:{{ progress }}%"></div></div>
+          </div></div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="card stat h-100"><div class="card-body">
+            <div class="label mb-2">Открыто</div>
+            <div class="value">{{ tasks_open }}</div>
+            <div class="small text-muted mt-1">задач</div>
+          </div></div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="card stat h-100"><div class="card-body">
+            <div class="label mb-2">Команда</div>
+            <div class="value fs-5 pt-2">{{ project.team.name }}</div>
+            <div class="small text-muted mt-1">
+              {{ project.team.members.all|length }}
+              {{ project.team.members.all|length|ru_plural:"человек,человека,человек" }}
+            </div>
+          </div></div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="card stat h-100"><div class="card-body">
+            <div class="label mb-2">Дедлайн</div>
+            <div class="value fs-5 pt-2">{{ project.deadline|date:"d.m.Y" }}</div>
+            <div class="small text-muted mt-1">
+              {% if days_left > 0 %}
+                через {{ days_left }} дней
+              {% elif days_left == 0 %}
+                сегодня
+              {% else %}
+                просрочен на {{ days_left|stringformat:"d"|cut:"-" }} дней
+              {% endif %}
+            </div>
+          </div></div>
+        </div>
+      </div>
+      <div class="row g-4">
+        <div class="col-xl-9">
+          <div class="card">
+        <div class="d-flex flex-wrap align-items-center gap-2 p-3 border-bottom">
+          <div class="segmented" data-filter-status role="group">
+            <button type="button" class="btn active" data-value="all">Все</button>
+            <button type="button" class="btn" data-value="open">В работе</button>
+            <button type="button" class="btn" data-value="done">Выполненные</button>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr><th></th><th>Задача</th><th class="d-none d-md-table-cell">Тип</th><th>Приоритет</th><th>Дедлайн</th><th>Действия</th></tr>
+            </thead>
+            <tbody id="proj-tasks" data-filterable data-empty="#proj-tasks-empty">
+              {% for task in tasks %}
+                <tr data-task
+                    data-status="{% if task.is_completed %}done{% else %}open{% endif %}"
+                    data-priority="{{ task.priority }}"
+                    data-type="{{ task.task_type.name }}"
+                    class="{% if task.is_completed %}is-done{% endif %}">
+                  <td style="width:36px">
+                    <span class="task-check" aria-label="{% if task.is_completed %}Выполнена{% else %}В работе{% endif %}">
+                      <i class="bi bi-check"></i>
+                    </span>
+                  </td>
+                  <td>
+                    <a href="{% url 'manager:task-detail' pk=task.pk %}"
+                       class="task-name fw-medium">{{ task.name }}</a>
+                    {% if task.tags.all %}
+                      <div class="d-flex flex-wrap gap-1 mt-1">
+                        {% for tag in task.tags.all %}
+                          <span class="tag">#{{ tag.name }}</span>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                  </td>
+                  <td class="d-none d-md-table-cell">
+                    <span class="badge-soft">{{ task.task_type.name }}</span>
+                  </td>
+                  <td>
+                    <span class="priority priority-{{ task.priority|lower }}">{{ task.priority }}</span>
+                  </td>
+                  <td class="text-nowrap">
+                    <span data-deadline="{{ task.deadline|date:'Y-m-d' }}">
+                      {{ task.deadline|date:'d.m.Y' }}
+                    </span>
+                  </td>
+                  <td class="text-nowrap">
+                    <a href="{% url 'manager:task-update' pk=task.pk %}"
+                       class="btn btn-ghost btn-sm" aria-label="Редактировать задачу">
+                      <i class="bi bi-pencil"></i>
+                    </a>
+                    <a href="{% url 'manager:task-delete' pk=task.pk %}"
+                       class="btn btn-ghost btn-sm text-danger" aria-label="Удалить задачу">
+                      <i class="bi bi-trash"></i>
+                    </a>
+                  </td>
+                </tr>
+              {% empty %}
+                <tr>
+                  <td colspan="6" class="text-center text-muted py-4">
+                    В этом проекте пока нет задач
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div id="proj-tasks-empty" class="empty d-none"><i class="bi bi-inbox"></i>Ничего не найдено</div>
+          </div>
+        </div>
+        <div class="col-xl-3">
+          <div class="card">
+            {% if project.team %}
+            <div class="card-header d-flex justify-content-between">
+              <h2>Команда</h2>
+              <a href="{% url 'manager:teams' %}" class="small text-muted">
+                {{ project.team.name }}
+              </a>
+            </div>
+              {% for member in project.team.members.all %}
+                <div class="card-body py-2">
+                  <a href="{% url 'manager:worker-detail' pk=member.pk %}"
+                     class="d-flex align-items-center gap-2 py-2 text-body">
+                    <span class="avatar" title="{{ member.get_full_name }}">
+                      {{ member.first_name|first }}{{ member.last_name|first }}
+                    </span>
+                    <span class="lh-sm flex-grow-1">
+                      <span class="d-block fw-medium">{{ member.get_full_name }}</span>
+                      <span class="small text-muted">{{ member.position.name }}</span>
+                    </span>
+                  </a>
+                </div>
+              {% empty %}
+                <p class="text-muted small p-3 mb-0">В команде пока нет участников</p>
+              {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </main>
+{% endblock %}

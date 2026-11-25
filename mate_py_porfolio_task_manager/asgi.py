@@ -11,6 +11,8 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mate_py_porfolio_task_manager.settings')
+os.environ.setdefault(
+    "DJANGO_SETTINGS_MODULE", "mate_py_porfolio_task_manager.settings"
+)
 
 application = get_asgi_application()

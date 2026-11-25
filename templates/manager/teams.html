@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <main class="tm-content">
+      <div class="page-header">
+        <div><h1>Команды</h1><p class="text-muted mb-0 mt-1">Группы сотрудников, работающие над проектами</p></div>
+        <div class="d-flex gap-2"><a class="btn btn-dark" href="{% url 'manager:team-create' %}"><i class="bi bi-plus-lg me-1"></i>Новая команда</a></div>
+      </div>
+      <div class="row g-3" data-filterable>
+        {% for team in team_list %}
+        <div class="col-md-6 col-xl-4" data-item>
+          <div class="card h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-start">
+                <div><h2>{{ team.name }}</h2><p class="text-muted mt-1 mb-3">{{ team.description }}</p></div>
+                <div class="dropdown">
+                  <button class="btn btn-ghost btn-sm" data-bs-toggle="dropdown" aria-label="Действия"><i class="bi bi-three-dots"></i></button>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="{% url 'manager:team-update' pk=team.pk %}">Изменить</a></li>
+                    <li><a class="dropdown-item text-danger" href="{% url 'manager:team-delete' pk=team.pk %}">Удалить</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="label mb-1">Участники · {{ team.members.all|length }}</div>
+              <div class="mb-3">
+                {% for member in team.members.all %}
+                <a href="{% url 'manager:worker-detail' pk=member.pk %}" class="d-flex align-items-center gap-2 py-1 text-body">
+                  <span class="avatar" title="{{ member.get_full_name }}">{{ member.get_initials }}</span>
+                  <span class="flex-grow-1">{{ member.get_full_name }}</span>
+                  <span class="small text-muted">{{ member.position.name }}</span>
+                </a>
+                {% empty %}
+                {% endfor %}
+              </div>
+              <div class="label mb-2">Проекты</div>
+              <div class="d-flex flex-wrap gap-1">
+                {% for project in team.projects.all %}
+                <a href="{% url 'manager:project-detail' pk=project.pk %}" class="badge-soft">{{ project.name }}</a>
+                {% empty %}
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <div><p>Нет команд для отображения.</p></div>
+        {% endfor %}
+      </div>
+    </main>
+{% endblock %}

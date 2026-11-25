@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class="tm-content">
+  <div class="page-header">
+    <div>
+      <div class="breadcrumb">
+        <a href="{% url 'manager:tasks' %}">Задачи</a>
+        <span class="text-muted mx-1">/</span>
+        <span class="current">{{ task.name }}</span>
+      </div>
+      <h1>{{ task.name }}</h1>
+    </div>
+    <div class="d-flex gap-2">
+      <a href="{% url 'manager:task-update' pk=task.pk %}"
+         class="btn btn-outline-secondary" aria-label="Изменить">
+        <i class="bi bi-pencil"></i>
+      </a>
+      <a href="{% url 'manager:task-delete' pk=task.pk %}"
+         class="btn btn-outline-danger" aria-label="Удалить">
+        <i class="bi bi-trash"></i>
+      </a>
+    </div>
+  </div>
+  <div class="row g-4" data-task data-status="{% if task.is_completed %}done{% else %}open{% endif %}">
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-body">
+          <div class="label mb-2">Описание</div>
+          <p class="mb-0" style="line-height:1.65">{{ task.description|linebreaksbr }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="card mb-3">
+        <div class="card-body">
+          <dl class="meta-list">
+            <div>
+              <dt>Статус</dt>
+              <dd>
+                <span class="status">
+                  <i class="bi {% if task.is_completed %}bi-check-circle{% else %}bi-circle{% endif %}"></i>
+                  {% if task.is_completed %}Выполнена{% else %}В работе{% endif %}
+                </span>
+              </dd>
+            </div>
+            <div><dt>Приоритет</dt><dd><span class="priority priority-{{ task.priority|lower }}">{{ task.priority }}</span></dd></div>
+            <div><dt>Тип</dt><dd><span class="badge-soft">{{ task.task_type.name }}</span></dd></div>
+            <div><dt>Дедлайн</dt><dd><span data-deadline="{{ task.deadline|date:'Y-m-d' }}">{{ task.deadline|date:'d.m.Y' }}</span></dd></div>
+            <div>
+              <dt>Проект</dt>
+              <dd><a href="{% url 'manager:project-detail' pk=task.project.pk %}">{{ task.project.name }}</a></dd>
+            </div>
+            <div>
+              <dt>Теги</dt>
+              <dd class="d-flex flex-wrap gap-1">
+                {% for tag in task.tags.all %}
+                  <span class="tag">#{{ tag.name }}</span>
+                {% empty %}
+                  <span class="text-muted">Нет тегов</span>
+                {% endfor %}
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header d-flex justify-content-between">
+          <h2>Команда проекта</h2>
+          <a href="{% url 'manager:teams' %}" class="small text-muted">{{ task.project.team.name }}</a>
+        </div>
+        {% for member in task.project.team.members.all %}
+          <div class="card-body py-2">
+            <a href="{% url 'manager:worker-detail' pk=member.pk %}"
+               class="d-flex align-items-center gap-2 py-2 text-body">
+              <span class="avatar" title="{{ member.get_full_name }}">
+                {{ member.first_name|first }}{{ member.last_name|first }}
+              </span>
+              <span class="lh-sm">
+                <span class="d-block fw-medium">{{ member.get_full_name }}</span>
+                <span class="small text-muted">{{ member.position.name }}</span>
+              </span>
+            </a>
+          </div>
+        {% empty %}
+          <p class="text-muted small p-3 mb-0">В команде пока нет участников</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}

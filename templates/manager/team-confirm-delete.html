@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class="tm-content">
+  <div class="page-header">
+    <div>
+      <h1>Удалить команду?</h1>
+      <p class="text-muted mb-0 mt-1">Проверьте последствия перед подтверждением</p>
+    </div>
+  </div>
+  <div class="card" style="max-width:720px">
+    <div class="card-body">
+      <p>Вы действительно хотите удалить команду «{{ object.name }}»?</p>
+      {% if object.projects.count %}
+        <p class="text-danger">
+          Вместе с командой будут удалены связанные проекты
+          ({{ object.projects.count }}) и их задачи.
+        </p>
+      {% endif %}
+      <form method="post" class="d-flex justify-content-end gap-2">
+        {% csrf_token %}
+        <a href="{% url 'manager:teams' %}" class="btn btn-outline-secondary">Отмена</a>
+        <button type="submit" class="btn btn-danger">Удалить команду</button>
+      </form>
+    </div>
+  </div>
+</main>
+{% endblock %}
